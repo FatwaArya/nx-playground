@@ -3,17 +3,14 @@
  * This is only a minimal backend to get started.
  */
 
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { MessagesModule } from './messages/message.module';
+import { ComputerModule } from './computer/computer.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(MessagesModule, {
-    snapshot: true,
-  });
+  const app = await NestFactory.create(ComputerModule);
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
-  app.useGlobalPipes(new ValidationPipe());
   const port = process.env.PORT || 3000;
   await app.listen(port);
   Logger.log(

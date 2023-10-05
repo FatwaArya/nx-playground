@@ -5,15 +5,18 @@
 
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { MessagesModule } from './messages/message.module';
+
+import { AppModule } from './app/app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(MessagesModule, {
-    snapshot: true,
-  });
+  const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+    })
+  );
   const port = process.env.PORT || 3000;
   await app.listen(port);
   Logger.log(
